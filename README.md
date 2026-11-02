@@ -23,14 +23,8 @@ Rather than a standard static gallery, this portfolio presents NDA-safe architec
 
 ## Key Features & UI/UX Engineering
 
-- **Quantified Impact Bento Grid:** Highlights production metrics (`3x` codebase migrations led, `94%` image payload reduction from `24 MB` to `1.3 MB`, `340+` commits in 3 months across SQL Server & SAP Business One services).
-- **Interactive 3x Codebase Migration Comparison:** Side-by-side *Before vs. After* architectural code inspection for:
-  - `Golang` → `Python (FastAPI) + PostgreSQL`
-  - `Legacy PHP Zend` → `ReactJS Component Architecture`
-  - `Scattered Node.js` → `Laravel Ecosystem + SQL Server Batched Chunking`
-- **Step-Locked Career Timeline:** Sticky scroll-driven experience showcase with dual-point Top/Bottom lock for detailed roles and an *Under-The-Hood Architecture Drawer* (covering SQL Server's 2,100-parameter limit batching, multi-level VAT margin calculation fixes, and POS/MDR financial reconciliation).
+- **Step-Locked Career Timeline:** Sticky scroll-driven experience showcase with dual-point Top/Bottom lock for detailed roles and an *Engineering Case Notes Drawer* (covering SQL Server's 2,100-parameter limit batching, multi-level VAT margin calculation fixes, and POS/MDR financial reconciliation).
 - **Live Mock API Contract Inspector:** Interactive JSON payload previews for featured systems and open-source repositories.
-- **Command Palette (`Ctrl + K`):** Keyboard-first developer navigation across sections, case studies, and external links.
 - **Anti-Scraper & Cloudflare Turnstile Contact Protection:**
   - Email and phone credentials are stored as obfuscated character-code chunks (`src/utils/contactSecurity.ts`) so static HTML/JS regex scrapers cannot harvest raw contact strings.
   - Credentials unlock in browser memory only after passing **Cloudflare Turnstile** verification, paired with an invisible **Honeypot** field on the quick message composer.
@@ -57,12 +51,10 @@ Rather than a standard static gallery, this portfolio presents NDA-safe architec
 ├── src/
 │   ├── components/
 │   │   ├── BrandLogo.tsx            # Reusable inline SVG logo component
-│   │   ├── CommandPalette.tsx       # Ctrl+K quick navigation modal
 │   │   ├── ExperienceSection.tsx    # Step-locked timeline & architecture drawer
 │   │   ├── Footer.tsx               # Footer metadata
-│   │   ├── HeroBento.tsx            # Hero & 4-card Bento Impact Grid
-│   │   ├── MigrationShowcase.tsx    # Interactive 3x codebase migration tabs
-│   │   ├── Navbar.tsx               # Sticky glassmorphism header
+│   │   ├── HeroBento.tsx            # Hero section & tech snapshot card
+│   │   ├── Navbar.tsx               # Minimal sticky header
 │   │   ├── ProjectsSection.tsx      # Featured projects + GitHub repos + API simulator
 │   │   ├── ProtectedContact.tsx     # Turnstile-protected contact & honeypot form
 │   │   ├── RevealOnScroll.tsx       # IntersectionObserver entrance animations
