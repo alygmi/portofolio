@@ -50,51 +50,11 @@ export const ProjectsSection: React.FC = () => {
         {/* Simplified Clickable Backend Cards Grid */}
         <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2">
           {visibleProjects.map((project, idx) => {
-            const targetUrl = project.liveUrl || project.repoUrl;
-            const linkLabel = project.liveUrl
-              ? 'Live ↗'
-              : project.repoUrl
-              ? 'GitHub ↗'
-              : 'Internal / Assessment';
-
-            const cardInner = (
-              <>
-                {/* Top Backend Endpoint Strip (Replaces a Frontend Screenshot) */}
-                <div className="border-b border-zinc-200 bg-zinc-900 px-5 py-3.5 font-mono text-xs text-zinc-300 transition-colors group-hover:bg-zinc-950">
-                  <div className="flex items-center justify-between gap-2 text-[11px] text-zinc-400">
-                    <span>{project.interactivePreview.method}</span>
-                    <span className="text-emerald-400">
-                      {project.interactivePreview.statusCode}
-                    </span>
-                  </div>
-                  <div className="mt-1 truncate text-xs font-medium text-zinc-100">
-                    {project.interactivePreview.endpointOrTitle}
-                  </div>
-                </div>
-
-                {/* Simple Body: Title + Short Description + Tech Stack */}
-                <div className="flex flex-1 flex-col justify-between p-5">
-                  <div>
-                    <div className="flex items-baseline justify-between gap-3">
-                      <h3 className="text-base font-bold text-zinc-900 transition-colors group-hover:text-emerald-700">
-                        {project.title}
-                      </h3>
-                      <span className="shrink-0 font-mono text-xs text-zinc-500 group-hover:text-zinc-900">
-                        {linkLabel}
-                      </span>
-                    </div>
-
-                    <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-zinc-600 sm:text-sm">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  <p className="mt-4 border-t border-zinc-100 pt-3 font-mono text-xs text-zinc-500">
-                    {project.techStack.join(' · ')}
-                  </p>
-                </div>
-              </>
-            );
+            const links = [
+              project.liveUrl && { label: 'Live', href: project.liveUrl },
+              project.docsUrl && { label: 'API Docs', href: project.docsUrl },
+              project.repoUrl && { label: 'GitHub', href: project.repoUrl },
+            ].filter(Boolean) as { label: string; href: string }[];
 
             return (
               <RevealOnScroll
@@ -103,20 +63,43 @@ export const ProjectsSection: React.FC = () => {
                 direction="up"
                 className="h-full"
               >
-                {targetUrl ? (
-                  <a
-                    href={targetUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs transition-all duration-200 hover:-translate-y-0.5 hover:border-zinc-300 hover:shadow-md"
-                  >
-                    {cardInner}
-                  </a>
-                ) : (
-                  <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xs">
-                    {cardInner}
+                <article className="flex h-full flex-col justify-between rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xs transition-colors duration-200 hover:border-zinc-300">
+                  <div>
+                    <h3 className="text-base font-bold text-zinc-900">
+                      {project.title}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-zinc-500">
+                      {project.subtitle}
+                    </p>
+                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-zinc-600 sm:text-sm">
+                      {project.description}
+                    </p>
                   </div>
-                )}
+
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-zinc-100 pt-3">
+                    <p className="font-mono text-xs text-zinc-500">
+                      {project.techStack.join(' · ')}
+                    </p>
+
+                    <div className="flex shrink-0 items-center gap-3 font-mono text-xs">
+                      {links.length > 0 ? (
+                        links.map((link) => (
+                          <a
+                            key={link.label}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="font-medium text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-emerald-700 hover:decoration-emerald-600"
+                          >
+                            {link.label} ↗
+                          </a>
+                        ))
+                      ) : (
+                        <span className="text-zinc-400">Private</span>
+                      )}
+                    </div>
+                  </div>
+                </article>
               </RevealOnScroll>
             );
           })}

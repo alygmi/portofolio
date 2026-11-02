@@ -29,14 +29,8 @@ export interface KeyProject {
   description: string;
   highlights: string[];
   techStack: string[];
-  interactivePreview: {
-    type: 'api-response' | 'audit-log' | 'pipeline';
-    endpointOrTitle: string;
-    method?: 'GET' | 'POST' | 'LOCK' | 'OAUTH' | 'WS';
-    statusCode: string;
-    latency: string;
-    payloadJson: string;
-  };
+  /** Optional link to public API docs (Swagger / OpenAPI / Postman) if the backend is hosted */
+  docsUrl?: string;
 }
 
 export interface SkillGroup {
@@ -210,25 +204,6 @@ export const PORTFOLIO_DATA = {
         'Append-only audit trail recording actor, diff payload, and timestamp for every mutation',
       ],
       techStack: ['Bun', 'Hono', 'Prisma ORM', 'Next.js 16', 'TanStack Query', 'Zustand'],
-      interactivePreview: {
-        type: 'audit-log',
-        endpointOrTitle: 'POST /api/tasks/tsk_902/transition (Optimistic Lock + Audit)',
-        method: 'LOCK',
-        statusCode: '200 OK • Lock v4 → v5',
-        latency: '14ms (Bun Runtime)',
-        payloadJson: `{
-  "status": "COMMITTED",
-  "optimisticLock": { "expectedVersion": 4, "newVersion": 5 },
-  "dependencyCheck": { "blockedBy": [], "canTransitionTo": "IN_REVIEW" },
-  "auditTrailEntry": {
-    "id": "aud_01JV8X92K",
-    "mode": "APPEND_ONLY",
-    "actorRole": "PROJECT_LEAD",
-    "diff": { "state": ["IN_PROGRESS", "IN_REVIEW"] },
-    "timestamp": "2026-10-18T09:42:11.104Z"
-  }
-}`,
-      },
     },
     {
       id: 'smartvending-api',
@@ -245,24 +220,6 @@ export const PORTFOLIO_DATA = {
         'Clean OpenAPI schema contracts enabling plug-and-play firmware integration',
       ],
       techStack: ['Python', 'FastAPI', 'PostgreSQL', 'RESTful API', 'IoT Telemetry'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'POST /api/v1/machines/vm-bdg-04/dispense',
-        method: 'POST',
-        statusCode: '201 CREATED',
-        latency: '22ms',
-        payloadJson: `{
-  "machineId": "vm-bdg-04",
-  "slotCode": "A03",
-  "transaction": {
-    "txId": "tx_vend_88412",
-    "paymentVerified": true,
-    "dispenseCommand": "RELEASE_SPIRAL_A03",
-    "remainingSlotStock": 7
-  },
-  "telemetryAck": true
-}`,
-      },
     },
     {
       id: 'sayurku',
@@ -278,22 +235,6 @@ export const PORTFOLIO_DATA = {
         'Responsive React storefront with integrated payment lifecycle handling',
       ],
       techStack: ['Java', 'Spring Boot', 'React', 'MySQL', 'REST API'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'POST /api/v1/orders/checkout (Spring Boot Service)',
-        method: 'POST',
-        statusCode: '200 OK',
-        latency: '31ms',
-        payloadJson: `{
-  "orderNumber": "SYR-2026-0941",
-  "buyerRole": "VERIFIED_CUSTOMER",
-  "inventoryReservation": "LOCKED_IN_MYSQL",
-  "items": [
-    { "sku": "ORG-BROCCOLI-500G", "qty": 4, "warehouse": "BDG-NORTH" }
-  ],
-  "paymentGatewayStatus": "AWAITING_SETTLEMENT"
-}`,
-      },
     },
     {
       id: 'roastmycv-automation',
@@ -311,22 +252,6 @@ export const PORTFOLIO_DATA = {
         'Secure Google OAuth 2.0 token lifecycle integration with Gmail API batch sender',
       ],
       techStack: ['Next.js', 'JavaScript', 'Python', 'Gmail API', 'OAuth 2.0', 'Vercel'],
-      interactivePreview: {
-        type: 'pipeline',
-        endpointOrTitle: 'OAUTH 2.0 PIPELINE — Resume Analysis & Gmail Dispatch',
-        method: 'OAUTH',
-        statusCode: '200 DISPATCHED',
-        latency: '118ms',
-        payloadJson: `{
-  "cvAnalysisScore": 91,
-  "roastVerdict": "Strong backend impact metrics, ready for production!",
-  "liveUrl": "https://roast-my-cv-self.vercel.app",
-  "dispatchQueue": {
-    "batchSize": 15,
-    "status": "SENT_WITH_RATE_LIMIT_GUARD"
-  }
-}`,
-      },
     },
 
     // === ADDITIONAL GITHUB REPOSITORIES FROM github.com/alygmi (Revealed via "Show More") ===
@@ -345,20 +270,6 @@ export const PORTFOLIO_DATA = {
         'Structured REST & real-time event payload design',
       ],
       techStack: ['Go (Golang)', 'Real-Time Channels', 'REST API', 'Concurrency'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'WS /v1/channels/eng-backend/stream (Go Hub)',
-        method: 'WS',
-        statusCode: '101 SWITCHING PROTOCOLS',
-        latency: '4ms (Go Routine)',
-        payloadJson: `{
-  "event": "MESSAGE_BROADCAST",
-  "workspaceId": "ws_artema_01",
-  "channel": "#backend-architecture",
-  "sender": "alygmi",
-  "goroutineWorkers": 16
-}`,
-      },
     },
     {
       id: 'anyartech-office-purchase',
@@ -375,19 +286,6 @@ export const PORTFOLIO_DATA = {
         'Role-based operational views for internal staff and administrators',
       ],
       techStack: ['PHP', 'Laravel / MVC', 'SQL', 'Procurement Workflow'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'POST /api/purchases/requisition',
-        method: 'POST',
-        statusCode: '201 CREATED',
-        latency: '28ms',
-        payloadJson: `{
-  "prNumber": "PR-ANYAR-2026-042",
-  "department": "IT & Operations",
-  "approvalStage": "FINANCE_REVIEW",
-  "budgetCheck": "PASSED"
-}`,
-      },
     },
     {
       id: 'career-backend-laravel-jwt',
@@ -404,19 +302,6 @@ export const PORTFOLIO_DATA = {
         'Real-time external data search integration and response normalization',
       ],
       techStack: ['PHP', 'Laravel', 'JWT Auth', 'REST API', 'Postman'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'GET /api/v1/search/external?q=bandung',
-        method: 'GET',
-        statusCode: '200 OK • JWT Verified',
-        latency: '37ms',
-        payloadJson: `{
-  "authenticatedUser": "aladiyat",
-  "jwtGuard": "VALID_BEARER_TOKEN",
-  "externalSearchResults": 12,
-  "cached": false
-}`,
-      },
     },
     {
       id: 'minishop-fullstack',
@@ -433,19 +318,6 @@ export const PORTFOLIO_DATA = {
         'Paired with Ice-Stream PHP backend service experiments',
       ],
       techStack: ['JavaScript', 'React', 'PHP', 'REST API', 'Fullstack'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'POST /api/cart/checkout (MiniShop)',
-        method: 'POST',
-        statusCode: '200 OK',
-        latency: '19ms',
-        payloadJson: `{
-  "cartId": "crt_99281",
-  "itemsCount": 3,
-  "totalIDR": 185000,
-  "orderStatus": "CONFIRMED"
-}`,
-      },
     },
     {
       id: 'fastapi-postgres-suite',
@@ -462,19 +334,6 @@ export const PORTFOLIO_DATA = {
         'Lightweight asynchronous endpoint design with Pydantic validation',
       ],
       techStack: ['Python', 'FastAPI', 'PostgreSQL', 'JSON Pipelines', 'SQL'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'POST /api/v1/postgres/bulk-json (pstgreJSON)',
-        method: 'POST',
-        statusCode: '201 INSERTED',
-        latency: '16ms',
-        payloadJson: `{
-  "source": "pstgreJSON",
-  "recordsParsed": 250,
-  "postgresTransaction": "COMMITTED",
-  "duplicateKeysSkipped": 0
-}`,
-      },
     },
     {
       id: 'wedding-invitation-platform',
@@ -491,19 +350,6 @@ export const PORTFOLIO_DATA = {
         'Dynamic guest RSVP, event schedule, and template rendering',
       ],
       techStack: ['PHP', 'Laravel 10', 'CodeIgniter 4', 'MySQL', 'Blade / Views'],
-      interactivePreview: {
-        type: 'api-response',
-        endpointOrTitle: 'GET /api/invitations/rsvp-summary',
-        method: 'GET',
-        statusCode: '200 OK',
-        latency: '24ms',
-        payloadJson: `{
-  "invitationSlug": "adiyat-wedding-demo",
-  "framework": "Laravel 10",
-  "rsvpConfirmed": 142,
-  "templateStatus": "PUBLISHED"
-}`,
-      },
     },
   ] as KeyProject[],
 
